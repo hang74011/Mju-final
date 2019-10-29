@@ -1,6 +1,6 @@
 make
 final.elf : 1.o 2.o 3.o 4.o
-	gcc -o final.elf 1.o 2.o 3.o 4.o
+	gcc -o final.elf 1.o 2.o 3.o 4.o myProject.h
 1.o : 1.c
 	gcc -c 1.c
 2.o : 2.c
