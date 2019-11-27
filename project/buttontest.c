@@ -1,19 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <linux/input.h>
 #include <unistd.h> 
 #include <fcntl.h> 
 #include <sys/ioctl.h> 
 #include <sys/mman.h>
-
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
 #define  INPUT_DEVICE_LIST	"/dev/input/event"
-
 #define  SYS_PATH	"S: Sysfs="
 #define  BUTTON_NAME	"ecube-button"
-
 #define  LINE_FEED	0x0A
-
 #define  MAX_BUFF	200
 int main(int argc, char *argv[])
 {
@@ -35,8 +36,10 @@ int main(int argc, char *argv[])
 	printf("read button event:%s\n",inputfileName);
 
 buttonLibInit();
-
-buttonThFunc();
-
+for(int i=0; i<100; i++)
+{
+	printf("i= %d\n",i);
+	sleep(1);
+}
 buttonLibExit();	
 }

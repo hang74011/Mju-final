@@ -5,5 +5,5 @@ int ledOnOff (int ledNum);
 int ledStatus (void);
 int ledLibExit(void);
 #define LED_DRIVER_NAME  "/dev/periled"
-#endif _LED_H_
+#endif 
 

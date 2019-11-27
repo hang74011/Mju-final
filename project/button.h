@@ -3,11 +3,17 @@
 #define _BUTTON_H_
 int buttonLibInit(void);
 int buttonLibExit(void);
-#define BUTTON_DRIVER_NAME "/dev/input/event4"
+#define BUTTON_DRIVER_NAME "/dev/input/event5"
 #define MESSAGE_ID 1122
 typedef struct
 {
 long int messageNum;
 int keyInput;
 } BUTTON_MSG_T;
-#endif _LED_H_
+
+typedef struct
+{
+long int messageNum;
+int keyOutput;
+} BUTTON_MSG_R;
+#endif 
