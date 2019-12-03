@@ -14,7 +14,7 @@
 int main(int argc , char **argv)
 {
 	 buzzerLibInit();
-	 sleep(1);
+	 sleep(3);
 	 buzzerLibOnBuz(1);
 	 sleep(1);
 	 buzzerLibOnBuz(2);

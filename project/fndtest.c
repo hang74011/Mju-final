@@ -10,9 +10,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "fnd.h"
-
-
-
 int main(int argc , char **argv)
 {
 	char fin;

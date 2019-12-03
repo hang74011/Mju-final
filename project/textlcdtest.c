@@ -9,13 +9,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "textlcd.h"
-
-
-
 #define TEXTLCD_DRIVER_NAME		"/dev/peritextlcd"
-
-
-
 
 int main(int argc , char **argv)
 {
