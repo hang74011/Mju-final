@@ -11,20 +11,21 @@
 #include <sys/msg.h>
 #include "button.h"
 
-static pthread_t buttonTh_t_id;
-static pthread_t buttonTh_r_id;
-static int fd,fp = 0;
-static void* buttonThFunc_t(void* arg);
-static void* buttonThFunc_r(void* arg);
-static int msgID = 0;
-static int readsize=0;
+static pthread_t buttonTh_id;
+//static pthread_t buttonTh_r_id;
+static int fd=0,fp = 0;
+static void *buttonThFunc(void* arg);
+//static void* buttonThFunc_r(void* arg);
+static int msgID ;
+//static int readsize=0;
 
 int buttonLibInit(void)
 {
 fd=open (BUTTON_DRIVER_NAME, O_RDONLY);
 msgID = msgget (MESSAGE_ID, IPC_CREAT|0666); //1122
-pthread_create(&buttonTh_t_id, NULL, &buttonThFunc_t, NULL);
-pthread_create(&buttonTh_r_id, NULL, &buttonThFunc_r, NULL);
+
+pthread_create(&buttonTh_id, NULL, buttonThFunc, NULL);
+//pthread_create(&buttonTh_r_id, NULL, &buttonThFunc_r, NULL);
 	if ( fd == -1 )
 	{
 		printf("%s file read error.\n",BUTTON_DRIVER_NAME);
@@ -34,47 +35,29 @@ pthread_create(&buttonTh_r_id, NULL, &buttonThFunc_r, NULL);
 }
 int buttonLibExit(void)
 {
-pthread_cancel(buttonTh_t_id);
-pthread_cancel(buttonTh_r_id);
-
-close(fd);
+pthread_cancel(buttonTh_id);
+	close(fd);
 }
 
-static void* buttonThFunc_t(void* arg)
-{
-BUTTON_MSG_T msgTx;//메세지 넘이랑 키 인풋.
-msgTx.messageNum = 1;
-struct input_event stEvent; 
-while (1)
+static void* buttonThFunc(void* arg)
+{    
+	BUTTON_MSG_T msgTx;
+	msgTx.messageNum = 1;
+	struct input_event stEvent;
+	while (1)
 	{
-
-		readsize=read(fd, &stEvent, sizeof (stEvent));
-		if (readsize != sizeof(stEvent))
-		{
-			printf("못읽음?");
-			continue;
-	}
+		read(fd, &stEvent, sizeof (stEvent));
 		
-  if ( ( stEvent.type == EV_KEY))
- {
-      msgTx.keyInput = stEvent.code;
-      msgsnd(msgID, &msgTx, sizeof(int), 0);
-      usleep(100);
-   if ( stEvent.value )
-			{
-				printf("pressed\n");
-		}
-			else
+		printf ("Event Occur!\r\n");
+		if ( ( stEvent.type == EV_KEY) )
 		{
-			printf("released\n");
-			}
- }
- 
- else
- { }                                                                        
+			msgTx.keyInput = stEvent.code;
+			msgTx.pressed = stEvent.value;
+			msgsnd(msgID, &msgTx, sizeof(msgTx) - sizeof(long int), 0);
+		}
+    }
 }
-}
-static void* buttonThFunc_r(void* arg)
+/*static void* buttonThFunc_r(void* arg)
 {
 	BUTTON_MSG_R msgRx;
 	msgRx.messageNum = 1;
@@ -101,7 +84,7 @@ default:;break;
 }
 }
 
-	}
+	}*/
 
 
 
