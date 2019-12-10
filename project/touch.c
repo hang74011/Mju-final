@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
 #include <linux/input.h>
 #include <pthread.h>
+#include "touch.h"
 
 #define EVENT_DEVICE    "/dev/input/event4"
 #define EVENT_TYPE      EV_ABS
@@ -11,60 +13,64 @@
 #define EVENT_CODE_Y    ABS_Y
 
 int fd;
+int a,b,c,x,y = 0;
 
-/* TODO: Close fd on SIGINT (Ctrl-C), if it's open */
-
-int main(int argc, char *argv[])
+int touchFunc(void)
 {
-	touchInit();
-    struct input_event ev;
+	 struct input_event ev;
     char name[256] = "Unknown";
-
-    if ((getuid ()) != 0) {
-        fprintf(stderr, "You are not root! This may not work...\n");
-        return EXIT_SUCCESS;
-    }
 
     /* Print Device Name */
     ioctl(fd, EVIOCGNAME(sizeof(name)), name);
     printf("Reading from:\n");
     printf("device file = %s\n", EVENT_DEVICE);
     printf("device name = %s\n", name);
-
-    for (;;) {
-        const size_t ev_size = sizeof(struct input_event);
-        ssize_t size;
-
-        /* TODO: use select() */
-
-        size = read(fd, &ev, ev_size);
-        if (size < ev_size) {
-            fprintf(stderr, "Error size when reading\n");
-            goto err;
-        }
-
-       /* if (ev.type == EVENT_TYPE && (ev.code == EVENT_CODE_X
-                      || ev.code == EVENT_CODE_Y)) {*/
-         if (ev.type == EVENT_TYPE && (ev.code == EVENT_CODE_X))
-        {
-            //printf("%s = %d\n", ev.code == EVENT_CODE_X ? "X" : "Y", ev.value);
-            printf("X의 좌표 = %d\n", ev.value);
+    
+    for (;;) 
+	    {
+			const size_t ev_size = sizeof(struct input_event);
+			ssize_t size;
+			
+			size = read(fd, &ev, ev_size);
+			
+			if (size < ev_size)
+			{
+				fprintf(stderr, "Error size when reading\n");
+				goto err;
+			}
+			
+			if (ev.type == EVENT_TYPE && (ev.code == EVENT_CODE_X || ev.code == EVENT_CODE_Y))
+			{
+				if(ev.code==EVENT_CODE_X)
+				{
+					x = ev.value;
+					a = 10;
+				}
+				if(ev.code==EVENT_CODE_Y)
+				{
+					y = ev.value;
+					b = 10;
+				}
+				//printf("%s = %d\n", ev.code == EVENT_CODE_X ? "X" : "Y", ev.value);
+				if(a+b == 20)
+				{
+					printf("x좌표 = %d	y좌표 = %d\n", x, y);
+					a = 0;
+					b = 0;
+				}
+			}
 		}
-		if(ev.type == EVENT_TYPE && (ev.code == EVENT_CODE_Y))
-		{
-			printf("Y의 좌표 = %d\n", ev.value);
-		}
-		}
-
-    return EXIT_SUCCESS;
-
-err:
-touchExit();
-    return EXIT_FAILURE;
+	err:
+	return 0;
 }
 
-int touchInit(void)		/* Open Device */
+int touchInit(void)		// Open Device 
 {
+	if ((getuid ()) != 0) {
+		fprintf(stderr, "You are not root! This may not work...\n");
+        return EXIT_SUCCESS;
+    }
+	
 	fd = open(EVENT_DEVICE, O_RDONLY);
 	if (fd == -1) {
 		fprintf(stderr, "%s is not a vaild device\n", EVENT_DEVICE);
@@ -72,7 +78,7 @@ int touchInit(void)		/* Open Device */
     }
 }
 
-int touchExit(void)
+int touchExit(void)		
 {
 	close(fd);
 }
