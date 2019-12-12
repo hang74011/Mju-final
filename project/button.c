@@ -56,7 +56,6 @@ static char buttonPath[200];
 static int fd;
 static int msgID;
 static pthread_t buttonTh_id;
-
 static void *buttonThFunc(void* arg)
 {    
 	BUTTON_MSG_T msgTx;
@@ -71,6 +70,7 @@ static void *buttonThFunc(void* arg)
 			msgTx.keyInput = stEvent.code;
 			msgTx.pressed = stEvent.value;
 			msgsnd(msgID, &msgTx, sizeof(msgTx) - sizeof(long int), 0);
+		}
     }
 }
 
@@ -88,5 +88,4 @@ int buttonExit(void)
 {
 	pthread_cancel(buttonTh_id);
 	close(fd);
-}
 }

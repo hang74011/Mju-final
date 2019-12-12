@@ -16,6 +16,7 @@
 #include "led.h"
 #include "button.h"
 #include "libBitmap.h"
+#include "touch.h"
 #include <pthread.h>
 #include <sys/ipc.h>
 #include <linux/input.h>
@@ -44,15 +45,41 @@
 #define LED_DRIVER_NAME "/dev/periled"
 //char gBuzzerBaseSysDir[128]; ///sys/bus/platform/devices/peribuzzer.XX 가 결정됨
 
+pthread_t TOUCHTH_ID;
+
+int zx[20] = {0};
+int zy[20] = {0};
+
 const int musicScale[MAX_SCALE_STEP] =
 {
 262, /*do*/ 294,330,349,392,440,494, /* si */ 523
 };
 
+void* TOUCHFUNC(void *args)
+{
+	touchInit();
+	int messageID1 = msgget(MESSAGE_ID1, IPC_CREAT|0666);	
+	TOUCH_MSG_T rxMSG;
+	while(1)
+	{
+		msgrcv(messageID1, &rxMSG, sizeof(rxMSG)-sizeof(long int), 0, 0);
+		for(int i = 0; i<20; i++)
+		{
+			zx[i] = rxMSG.touchX;
+			zy[i] = rxMSG.touchY;
+			msgrcv(messageID1, &rxMSG, sizeof(rxMSG)-sizeof(long int), 0, IPC_NOWAIT);
+			usleep(10000);
+		}
+	}
+	touchExit();
+}
+
 int main ( int argc , char *argv[])
 {
 	ledLibInit();
 	buzzerLibInit();
+	
+	pthread_create(&TOUCHTH_ID, NULL, &TOUCHFUNC, NULL);
 	
 	//char 	inputfileName[MAX_BUFF+1];
 	//int		readSize,inputIndex;
@@ -291,7 +318,7 @@ while(hexa>0 ) {
 		 }
 	 }
  
-			
+		printf("%d %d\n", zx[0], zy[0]);
 		sleep(1);
 		fin=getchar();
 		
@@ -361,9 +388,12 @@ fnd( MODE_STATIC_DIS,0);
 ledLibExit();
  buttonExit();
 buzzerLibOffBuz();
+pthread_cancel(TOUCHTH_ID);
 return 0;
 
 }
+
+
 
 
 

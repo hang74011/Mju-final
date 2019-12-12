@@ -63,18 +63,18 @@ void* touchThFunc(void *args)
 	return 0;
 }
 
-int touchFunc(void)
+/*int touchFunc(void)
 {
     char name[256] = "Unknown";
 
-    /* Print Device Name */
+
     ioctl(fd, EVIOCGNAME(sizeof(name)), name);
     printf("Reading from:\n");
     printf("device file = %s\n", EVENT_DEVICE);
     printf("device name = %s\n", name);
     
 	return 0;
-}
+}*/
 
 int touchInit(void)		// Open Device 
 {
@@ -87,7 +87,7 @@ int touchInit(void)		// Open Device
 		fprintf(stderr, "%s is not a vaild device\n", EVENT_DEVICE);
 		return EXIT_FAILURE;
     }
-    msgID = msgget(MESSAGE_ID, IPC_CREAT|0666); //1234
+    msgID = msgget(MESSAGE_ID1, IPC_CREAT|0666); //1234
     pthread_create(&touchTh_id, NULL, &touchThFunc, NULL);
 }
 

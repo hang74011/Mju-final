@@ -34,6 +34,5 @@ int main(int argc , char **argv)
 	buzzerLibOffBuz();
 	 return 0;
 	 
-	 }
-
+ }
 
