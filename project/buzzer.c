@@ -1,24 +1,24 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <dirent.h>
-#include "buzzer.h"
+#include <stdio.h> // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
+#include <stdlib.h> // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
+#include <string.h> // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
+#include <fcntl.h> // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
+#include <unistd.h> // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
+#include <dirent.h> // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
+#include "buzzer.h" // 프로그램을 실행시키기 위해 쓰는 함수들을 위해 헤더파일 추가
 
-#define MAX_SCALE_STEP 8
-#define BUZZER_BASE_SYS_PATH "/sys/bus/platform/devices/"
-#define BUZZER_FILENAME "peribuzzer"
-#define BUZZER_ENABLE_NAME "enable"
-#define BUZZER_FREQUENCY_NAME "frequency"
+#define MAX_SCALE_STEP 8 // 간편하게 쓰기 위해 define함수
+#define BUZZER_BASE_SYS_PATH "/sys/bus/platform/devices/"// 간편하게 쓰기 위해 define함수
+#define BUZZER_FILENAME "peribuzzer"// 간편하게 쓰기 위해 define함수
+#define BUZZER_ENABLE_NAME "enable"// 간편하게 쓰기 위해 define함수
+#define BUZZER_FREQUENCY_NAME "frequency"// 간편하게 쓰기 위해 define함수
 char gBuzzerBaseSysDir[128]; ///sys/bus/platform/devices/peribuzzer.XX 가 결정됨
 static const int musicScale[MAX_SCALE_STEP] =
 {
 262, /*do*/ 294,330,349,392,440,494, /* si */ 523
 };
 
-int buzzerLibInit(void){
+int buzzerLibInit(void){ 
 	
 DIR      *dir_info ;
 dir_info = opendir(BUZZER_BASE_SYS_PATH);
@@ -38,7 +38,7 @@ printf("find %s\n",gBuzzerBaseSysDir);
 return ifNotFound;
 }
 
-void buzzerEnable(int bEnable)
+void buzzerEnable(int bEnable) // buzzer 활성화시키는 함수
 {
 char path[200];
 sprintf(path,"%s%s",gBuzzerBaseSysDir,BUZZER_ENABLE_NAME);
@@ -48,7 +48,7 @@ else write(fd, &"0", 1);
 close(fd);
 }
 
-void setFrequency(int frequency)
+void setFrequency(int frequency) // set Frequency 함수
 {
 char path[200];
 sprintf(path,"%s%s",gBuzzerBaseSysDir,BUZZER_FREQUENCY_NAME);
@@ -57,7 +57,7 @@ dprintf(fd, "%d", frequency);
 close(fd);
 }
 
-int buzzerLibOnBuz(int freq)
+int buzzerLibOnBuz(int freq) //buzzer on 시키는 함수
 {
 	int freIndex;
 	
@@ -70,7 +70,7 @@ int buzzerLibOnBuz(int freq)
 	buzzerEnable(1);
 	}
 	
-	int buzzerLibOffBuz(void)
+	int buzzerLibOffBuz(void) // buzzer off 시키는 함수
 {
 	
 	buzzerEnable(0);
