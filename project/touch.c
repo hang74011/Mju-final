@@ -15,7 +15,7 @@
 
 pthread_t touchTh_id;
 int fd;
-int a,b,c,x,y = 0;
+int a,b,c,x,y,k = 0;
 static int msgID;
 
 void* touchThFunc(void *args)
@@ -39,19 +39,19 @@ void* touchThFunc(void *args)
 				if(ev.code==EVENT_CODE_X)
 				{
 					x = ev.value;
-					a = 10;
+					a = 3;
 				}
 				if(ev.code==EVENT_CODE_Y)
 				{
 					y = ev.value;
-					b = 10;
+					a +=7;
 				}
 			}
-		if(a+b == 20)
+		if( a == 10)
 		{
 			 TOUCH_MSG_T msgTx;
 			msgTx.messageNum = 1;
-			//printf("x좌표 = %d	y좌표 = %d\n", x, y);
+			printf("\tRAWDATA x좌표 = %d	y좌표 = %d\n", x, y);
 			msgTx.touchX = x;
 			msgTx.touchY = y;
 			msgsnd(msgID, &msgTx, sizeof(msgTx)-sizeof(long int), 0);
@@ -63,18 +63,18 @@ void* touchThFunc(void *args)
 	return 0;
 }
 
-/*int touchFunc(void)
+int touchFunc(void)
 {
     char name[256] = "Unknown";
 
-
+    /* Print Device Name */
     ioctl(fd, EVIOCGNAME(sizeof(name)), name);
     printf("Reading from:\n");
     printf("device file = %s\n", EVENT_DEVICE);
     printf("device name = %s\n", name);
     
 	return 0;
-}*/
+}
 
 int touchInit(void)		// Open Device 
 {
@@ -87,7 +87,7 @@ int touchInit(void)		// Open Device
 		fprintf(stderr, "%s is not a vaild device\n", EVENT_DEVICE);
 		return EXIT_FAILURE;
     }
-    msgID = msgget(MESSAGE_ID1, IPC_CREAT|0666); //1234
+    msgID = msgget(MESSAGE_IDT, IPC_CREAT|0666); //1234
     pthread_create(&touchTh_id, NULL, &touchThFunc, NULL);
 }
 
