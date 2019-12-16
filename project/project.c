@@ -127,6 +127,7 @@ char filename7[200]={0,};
 		close_bmp();
 
 while(hexa>0 ) {
+	ran = rand()%10;
 
 	
 		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
@@ -137,7 +138,7 @@ while(hexa>0 ) {
 			
 				case KEY_SEARCH: 
 			
-				printf("Volume up key):");
+				printf("reset");
 				
 		         level=1;
 		       hexa=0x0f;
@@ -157,12 +158,19 @@ while(hexa>0 ) {
 			
 				case KEY_BACK: 
 				printf("game over:"); 
-				hexa=0;
+				hexa=0x00;
+				fnd( MODE_STATIC_DIS,0);
+				ledOnOff (hexa);
 			break;
 			
 			case KEY_MENU: 
 				printf("restart:");
 				level=1;
+				start=1;
+				hexa=0x0f;
+				ledOnOff (hexa);
+					fnd( MODE_STATIC_DIS,sum);
+				
 			break;
 	
 		}
@@ -428,7 +436,7 @@ while(hexa>0 ) {
    
 		close_bmp();
 		
-		sleep(2);
+		usleep(400000);
 	
 	printf("\r\n현재 좌표 x : %d, y : %d\n\r\n\r\n", x, y);
 		printf("현재 눌린 번호는 %d번 입니다.\n\n", a);
@@ -491,7 +499,7 @@ while(hexa>0 ) {
 			{level=5;}
 			
 			ledtextwrite("1","success");
-			ran= (rand())%10;
+			ran = rand()%10;
 
 		}
 			else
@@ -509,6 +517,26 @@ while(hexa>0 ) {
 		ledOnOff(hexa);
 		ledtextwrite("1","fail");
 		start=0;
+			if(hexa==0x00)
+		{
+			char filename6[200]={0,};
+		snprintf(filename6,200,"gameover.bmp"); 
+
+       sleep(1);
+
+     if (read_bmp(filename6, &data, &cols, &rows) < 0)
+		{
+			printf ("File open failed\r\n");
+			return 0;
+		}	
+
+		fb_write(data, cols,rows);
+   
+		close_bmp();
+		hexa=1;
+		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+		}
 		}
 	
 	
@@ -606,7 +634,7 @@ while(hexa>0 ) {
 		fb_write(data, cols,rows);
    
 		close_bmp();
-		sleep(2);
+		usleep(400000);
 	
 	printf("\r\n현재 좌표 x : %d, y : %d\n\r\n\r\n", x, y);
 		printf("현재 눌린 번호는 %d번 입니다.\n\n", a);
@@ -689,6 +717,26 @@ while(hexa>0 ) {
 		ledOnOff(hexa);
 		ledtextwrite("1","fail");
 		start=0;
+			if(hexa==0x00)
+		{
+			char filename6[200]={0,};
+		snprintf(filename6,200,"gameover.bmp"); 
+
+       sleep(1);
+
+     if (read_bmp(filename6, &data, &cols, &rows) < 0)
+		{
+			printf ("File open failed\r\n");
+			return 0;
+		}	
+
+		fb_write(data, cols,rows);
+   
+		close_bmp();
+		hexa=1;
+		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+		}
 		}
 	
 	
@@ -784,7 +832,7 @@ while(hexa>0 ) {
 		fb_write(data, cols,rows);
    
 		close_bmp();
-		sleep(2);
+		usleep(400000);
 	
 	printf("\r\n현재 좌표 x : %d, y : %d\n\r\n\r\n", x, y);
 		printf("현재 눌린 번호는 %d번 입니다.\n\n", a);
@@ -865,6 +913,26 @@ while(hexa>0 ) {
 		ledOnOff(hexa);
 		ledtextwrite("1","fail");
 		start=0;
+			if(hexa==0x00)
+		{
+			char filename6[200]={0,};
+		snprintf(filename6,200,"gameover.bmp"); 
+
+       sleep(1);
+
+     if (read_bmp(filename6, &data, &cols, &rows) < 0)
+		{
+			printf ("File open failed\r\n");
+			return 0;
+		}	
+
+		fb_write(data, cols,rows);
+   
+		close_bmp();
+		hexa=1;
+		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+		}
 		}
 	
 }
@@ -887,7 +955,7 @@ while(hexa>0 ) {
 		fb_write(data, cols,rows);
    
 		close_bmp();
-		sleep(2);
+	
 				
 				msgrcv(messageIDT, &rxTMsg, sizeof(rxTMsg)-sizeof(long int), 0, 0);
 		x = rxTMsg.touchX;
@@ -961,6 +1029,7 @@ while(hexa>0 ) {
 		fb_write(data, cols,rows);
    
 		close_bmp();
+		usleep(400000);
 	
 	printf("\r\n현재 좌표 x : %d, y : %d\n\r\n\r\n", x, y);
 		printf("현재 눌린 번호는 %d번 입니다.\n\n", a);
@@ -1041,6 +1110,27 @@ while(hexa>0 ) {
 		ledOnOff(hexa);
 		ledtextwrite("1","fail");
 		start=0;
+		
+			if(hexa==0x00)
+		{
+			char filename6[200]={0,};
+		snprintf(filename6,200,"gameover.bmp"); 
+
+       sleep(1);
+
+     if (read_bmp(filename6, &data, &cols, &rows) < 0)
+		{
+			printf ("File open failed\r\n");
+			return 0;
+		}	
+
+		fb_write(data, cols,rows);
+   
+		close_bmp();
+		hexa=1;
+		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+		}
 		}
 	
 }
@@ -1135,8 +1225,7 @@ while(hexa>0 ) {
 		fb_write(data, cols,rows);
    
 		close_bmp();
-		sleep(2);
-	
+	usleep(400000);
 	printf("\r\n현재 좌표 x : %d, y : %d\n\r\n\r\n", x, y);
 		printf("현재 눌린 번호는 %d번 입니다.\n\n", a);
 		printf("정답은  %d번 입니다.\n\n", sajin9[ran][j]);
@@ -1234,21 +1323,14 @@ while(hexa>0 ) {
 		ledOnOff(hexa);
 		ledtextwrite("1","fail");
 		start=0;
-		}
-	
-}
-
-
-	  
-	
-	sleep(1);
-	
-	msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
-	} 
-char filename6[200]={0,};
+		
+		
+		if(hexa==0x00)
+		{
+			char filename6[200]={0,};
 		snprintf(filename6,200,"gameover.bmp"); 
 
-       usleep(1000);
+       sleep(1);
 
      if (read_bmp(filename6, &data, &cols, &rows) < 0)
 		{
@@ -1259,8 +1341,37 @@ char filename6[200]={0,};
 		fb_write(data, cols,rows);
    
 		close_bmp();
+		hexa=1;
+		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+		}
+		
 
 
+	}
+	
+}
+
+
+	  
+	
+	sleep(1);
+	
+	msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
+	} 
+
+			char filename22[200]={0,};
+		snprintf(filename22,200,"thank.bmp"); 
+	
+     if (read_bmp(filename22, &data, &cols, &rows) < 0)
+		{
+			printf ("File open failed\r\n");
+			return 0;
+		}	
+	
+		fb_write(data, cols,rows);
+   
+		close_bmp();
 
 
 	ledtextwrite("1","game over");

@@ -87,7 +87,7 @@ int touchInit(void)		// Open Device
 		fprintf(stderr, "%s is not a vaild device\n", EVENT_DEVICE);
 		return EXIT_FAILURE;
     }
-    msgID = msgget(MESSAGE_ID1, IPC_CREAT|0666); //1234
+    msgID = msgget(MESSAGE_IDT, IPC_CREAT|0666); //1234
     pthread_create(&touchTh_id, NULL, &touchThFunc, NULL);
 }
 
