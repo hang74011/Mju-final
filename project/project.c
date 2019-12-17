@@ -127,48 +127,48 @@ char filename7[200]={0,}; //char타입의 배열 선언
 		close_bmp();
 
 while(hexa>0 ) {
-	ran = rand()%10;
+	ran = rand()%10; //난수 생성
 
 	
 		msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
-		printf ("ReceivedMessage:%d-%d",rxMsg.keyInput, rxMsg.pressed);
+		printf ("ReceivedMessage:%d-%d",rxMsg.keyInput, rxMsg.pressed); //리시브 메시지 표출
 	
-		switch(rxMsg.keyInput)
+		switch(rxMsg.keyInput) //스위치문
 		{
 			
 				case KEY_SEARCH: 
 			
-				printf("reset");
-				
-		         level=1;
-		       hexa=0x0f;
-		       sum=0;
-		       start=0;
-		       ledtextwrite("1","reset");
-		 ledtextwrite("2","LEVEL 0");
+				printf("reset"); //리셋
+				 
+		         level=1; //레벨은 1로 시작
+		       hexa=0x0f; //헥사로 0f
+		       sum=0; //sum은 0
+		       start=0; //start = 0 
+		       ledtextwrite("1","reset"); //
+		 ledtextwrite("2","LEVEL 0"); //
 		 	ledOnOff (hexa);
 			break;
 			
-			case KEY_HOME : 
-			printf("start"); 
-				     start=1;
+			case KEY_HOME : //home키가 눌리면
+			printf("start"); //start문구 
+				     start=1; //start =1 
 				
 			
 			break;
 			
-				case KEY_BACK: 
-				printf("game over:"); 
-				hexa=0x00;
+				case KEY_BACK: //back이 눌리면
+				printf("game over:"); //game over 문구 표시
+				hexa=0x00; //0으로 초기화
 				fnd( MODE_STATIC_DIS,0);
 				ledOnOff (hexa);
 			break;
 			
-			case KEY_MENU: 
-				printf("restart:");
-				level=1;
-				start=1;
+			case KEY_MENU: //Menu가 눌리면
+				printf("restart:"); //restart 표시
+				level=1; //level = 1
+				start=1; //start =1 
 				hexa=0x0f;
-				ledOnOff (hexa);
+				ledOnOff (hexa); //led on
 					fnd( MODE_STATIC_DIS,sum);
 				
 			break;
@@ -176,17 +176,17 @@ while(hexa>0 ) {
 		}
 		
 
-	 if(level==1 &&start == 1) {
-		 usleep(1000);
-		 	buzzerLibOnBuz(8);
-		 sleep(1);
-	 buzzerLibOffBuz();
-	for (int i=0; i<=4;i++)
-	{    usleep(1000);
-		 ledtextwrite("1","start");
-		 ledtextwrite("2","LEVEL 1");
+	 if(level==1 &&start == 1) { //level 과 start가 1이면
+		 usleep(1000); //1ms delay
+		 	buzzerLibOnBuz(8); //높은 도음 부저
+		 sleep(1); //1초 delay
+	 buzzerLibOffBuz(); //부저 off
+	for (int i=0; i<=4;i++) //i를 증가시키는 for문 
+	{    usleep(1000); //1ms delay
+		 ledtextwrite("1","start"); //text메세지 표출
+		 ledtextwrite("2","LEVEL 1");//text메세지 표출
 	
-		char filename[200]={0,};
+		char filename[200]={0,}; //char타입의 filname이름을 가진 배열 선언
 		snprintf(filename,200,"%d.bmp",sajin5[ran][i]); 
 		
        usleep(600000);
@@ -201,19 +201,19 @@ while(hexa>0 ) {
    
 		close_bmp();
 		 }
-		 sleep(1);
+		 sleep(1); //1초 딜레이
 	 }
 	 
-	 if(level==2&&start == 1) {
-		  usleep(1000);
-		 	buzzerLibOnBuz(8);
-		 sleep(1);
-	 buzzerLibOffBuz();
-	for (int i=0; i<=5;i++)
+	 if(level==2&&start == 1) { //레벨이 2인 경우
+		  usleep(1000); //1ms 딜레이
+		 	buzzerLibOnBuz(8); //높은 도 부저 on
+		 sleep(1); //1초 딜레이
+	 buzzerLibOffBuz(); //부저 off
+	for (int i=0; i<=5;i++) //i를 5까지 나오게 하는 for 문
 	{  
-		 usleep(1000);
-		 ledtextwrite("1","start");
-		 ledtextwrite("2","LEVEL 2");
+		 usleep(1000); //1ms딜레이
+		 ledtextwrite("1","start"); //start문구 표시
+		 ledtextwrite("2","LEVEL 2");//level2 표시
 	
 		char filename[200]={0,};
 		snprintf(filename,200,"%d.bmp",sajin6[ran][i]); 
