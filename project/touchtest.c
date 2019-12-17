@@ -1,20 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <sys/msg.h>
-#include <linux/input.h>
-#include <pthread.h>
-#include "touch.h"
+#include <stdio.h> //함수가 포함되어있는 헤더파일
+#include <stdlib.h>//함수가 포함되어있는 헤더파일
+#include <unistd.h>//함수가 포함되어있는 헤더파일
+#include <fcntl.h>//함수가 포함되어있는 헤더파일
+#include <sys/ioctl.h>//함수가 포함되어있는 헤더파일
+#include <sys/msg.h>//함수가 포함되어있는 헤더파일
+#include <linux/input.h>//함수가 포함되어있는 헤더파일
+#include <pthread.h>//함수가 포함되어있는 헤더파일
+#include "touch.h"//함수가 포함되어있는 헤더파일
 
 int main(int argc, char *argv[])
 {
-	int x,y;
-	int i = 0;
-	int zx[20] = {0};
-	int zy[20] = {0};
-	int messageID = msgget(MESSAGE_ID, IPC_CREAT|0666);
+	int x,y; //변수선언
+	int i = 0;//변수선언
+	int zx[20] = {0};//변수선언
+	int zy[20] = {0};//변수선언
+	int messageID = msgget(MESSAGE_ID, IPC_CREAT|0666);//변수선언
 	TOUCH_MSG_T rxMsg;
 	touchInit();
 	touchFunc();
