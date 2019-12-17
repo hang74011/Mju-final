@@ -168,6 +168,7 @@ while(hexa>0 ) {
 				level=1; //level = 1
 				start=1; //start =1 
 				hexa=0x0f;
+         sum=0;
 				ledOnOff (hexa); //led on
 					fnd( MODE_STATIC_DIS,sum);
 				
