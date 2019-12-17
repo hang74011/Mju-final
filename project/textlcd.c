@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h>//변수선언
+#include <stdlib.h>////변수선언
 #include <string.h>
 #include <sys/ioctl.h>
 #include <ctype.h>
