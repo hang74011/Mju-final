@@ -1,22 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdio.h> //exit() atoi() rand() srand() system() 함수를 사용하기 위한 헤더파일.
+#include <stdlib.h>//Standard Input/Output library (표준입출력 라이브러리)의 약어로써, C 언어의 표준 라이브러리 함수의 매크로 정의, 상수, 여러 형의 입출력 함수가 포함된 헤더 파일이다
+#include <string.h>//C 언어의 표준 라이브러리로, 메모리 블록이나 문자열을 다룰 수 있는 함수들을 포함하는 헤더파일
 #include <sys/ioctl.h>
-#include <ctype.h>
+#include <ctype.h>// C 언어의 표준 라이브러리로, 문자들을 조건에 맞는지 검사하고 변환하는 함수들을 포함하는 헤더파일
 #include <sys/ipc.h>
 #include <sys/types.h>
 #include <pthread.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <fcntl.h>
-#include <unistd.h>// for open/close
-#include "fnd.h"
-#include "textlcd.h"
-#include "buzzer.h"
-#include "led.h"
-#include "button.h"
-#include "touch.h"
-#include "libBitmap.h"
+#include <fcntl.h>//파일을 제어하는 헤더파일
+#include <unistd.h>//유닉스와 같은 시스템에 의해 정의 된 인터페이스에서 unistd.h전형적으로 주로 구성되어 기능 랩퍼 시스템 콜 등 fork, pipe및 I / O 프리미티브 ( read, write, close등).을 사용하기 위한 헤더파일
+#include "fnd.h" //fnd헤더파일을 만들어줌
+#include "textlcd.h" //textlcd헤더파일을 만들어서 사용
+#include "buzzer.h"//buzzer헤더파일을 만들어서 사용
+#include "led.h"//led헤더파일을 만들어서 사용
+#include "button.h"//button헤더파일을 만들어서 사용
+#include "touch.h"//touch헤더파일을 만들어서 사용
+#include "libBitmap.h"//libBitmap헤더파일을 만들어서 사용
 #include <pthread.h>
 #include <sys/ipc.h>
 #include <linux/input.h>
@@ -27,7 +27,7 @@
 
 
 
-#define EVENT_DEVICE    "/dev/input/event4"
+#define EVENT_DEVICE    "/dev/input/event4" 
 #define MAX_SCALE_STEP 8
 
 #define BUZZER_FILENAME "peribuzzer"
@@ -68,53 +68,53 @@ int main ( int argc , char *argv[])
    ledtextwrite("1","start");
 
 	
-    int a,x,y;
-	int i = 0;
-	int zero=10;
+    int a,x,y; //정수 변수 a,x,y 선언
+	int i = 0; //i에 0 초기값 부여
+	int zero=10; //zero에 10을 대입
 	
-    char fin;
-	int sum=0;
+    char fin; //char타입의 fin변수 선언
+	int sum=0; //정수형 sum을 0으로 선언
 	sleep(1);
 	fnd(0,sum);
 	
-	int screen_width;
-    int screen_height;
-    int bits_per_pixel;
-    int line_length;
-    int cols = 0, rows = 0;
-	char *data;
-	    if ( fb_init(&screen_width, &screen_height, &bits_per_pixel, &line_length) < 0 )
+	int screen_width; // 스크린 너비 변수
+    int screen_height; //스크린 높이 변수
+    int bits_per_pixel; //비트당 픽셀 변수
+    int line_length; //선의 길이 변수
+    int cols = 0, rows = 0; //행과 열을 0으로 선언
+	char *data; //char타입의 data이름을 가진 포인터 선
+	    if ( fb_init(&screen_width, &screen_height, &bits_per_pixel, &line_length) < 0 ) //screen_width, &screen_height, &bits_per_pixel, &line_length가 0보다 작으
 	{
-		printf ("FrameBuffer Init Failed\r\n");
-		return 0;
+		printf ("FrameBuffer Init Failed\r\n"); //init fail문구 표출
+		return 0; //초기화
 	}
 	fb_clear();
 	
-	int sajin5[10][5]={ {9,0,2,4,7},{1,9,4,8,5},{7,2,8,4,9},{6,0,3,1,5} ,{9,0,1,6,2 },{8,5,4,3,7},{ 2,5,1,0,7},{6,8,9,3,4 },{7,2,9,8,5},{1,0,3,4,6 }};
-	int sajin6[10][6]={ {7,9,0,2,4,7},{5,1,9,4,8,5},{4,7,2,8,4,9},{3,6,0,3,1,5} ,{8,9,0,1,6,2 },{1,8,5,4,3,7},{ 5,2,5,1,0,7},{2,6,8,9,3,4},{6,7,2,9,8,5},{9,1,0,3,4,6 }};
-	int sajin7[10][7]={ {1,7,9,0,2,4,7},{2,5,1,9,4,8,5},{3,4,7,2,8,4,9},{4,3,6,0,3,1,5} ,{5,8,9,0,1,6,2},{6,1,8,5,4,3,7},{ 7,5,2,5,1,0,7},{8,2,6,8,9,3,4 },{9,6,7,2,9,8,5},{1,9,1,0,3,4,6 }};
-	int sajin8[10][8]={ {9,1,7,9,0,2,4,7},{8,2,5,1,9,4,8,5},{7,3,4,7,2,8,4,9},{6,4,3,6,0,3,1,5},{5,5,8,9,0,1,6,2},{4,6,1,8,5,4,3,7},{3, 7,5,2,5,1,0,7},{2,8,2,6,8,9,3,4},{1,9,6,7,2,9,8,5},{5,1,9,1,0,3,4,6 }};
-    int sajin9[10][9]={ {2,9,1,7,9,0,2,4,7},{3,8,2,5,1,9,4,8,5},{4,7,3,4,7,2,8,4,9},{5,6,4,3,6,0,3,1,5} ,{6,5,5,8,9,0,1,6,2 },{7,4,6,1,8,5,4,3,7},{8,3, 7,5,2,5,1,0,7},{9,2,8,2,6,8,9,3,4 },{6,1,9,6,7,2,9,8,5},{1,5,1,9,1,0,3,4,6 }};
+	int sajin5[10][5]={ {9,0,2,4,7},{1,9,4,8,5},{7,2,8,4,9},{6,0,3,1,5} ,{9,0,1,6,2 },{8,5,4,3,7},{ 2,5,1,0,7},{6,8,9,3,4 },{7,2,9,8,5},{1,0,3,4,6 }}; //1스테이지에 나오는 문제를 배열로 선언
+	int sajin6[10][6]={ {7,9,0,2,4,7},{5,1,9,4,8,5},{4,7,2,8,4,9},{3,6,0,3,1,5} ,{8,9,0,1,6,2 },{1,8,5,4,3,7},{ 5,2,5,1,0,7},{2,6,8,9,3,4},{6,7,2,9,8,5},{9,1,0,3,4,6 }}; //2스테이지에 나오는 문제를 배열로 선언
+	int sajin7[10][7]={ {1,7,9,0,2,4,7},{2,5,1,9,4,8,5},{3,4,7,2,8,4,9},{4,3,6,0,3,1,5} ,{5,8,9,0,1,6,2},{6,1,8,5,4,3,7},{ 7,5,2,5,1,0,7},{8,2,6,8,9,3,4 },{9,6,7,2,9,8,5},{1,9,1,0,3,4,6 }}; //3스테이지에 나오는 문제를 배열로 선언
+	int sajin8[10][8]={ {9,1,7,9,0,2,4,7},{8,2,5,1,9,4,8,5},{7,3,4,7,2,8,4,9},{6,4,3,6,0,3,1,5},{5,5,8,9,0,1,6,2},{4,6,1,8,5,4,3,7},{3, 7,5,2,5,1,0,7},{2,8,2,6,8,9,3,4},{1,9,6,7,2,9,8,5},{5,1,9,1,0,3,4,6 }}; //4스테이지에 나오는 문제를 배열로 선언
+    int sajin9[10][9]={ {2,9,1,7,9,0,2,4,7},{3,8,2,5,1,9,4,8,5},{4,7,3,4,7,2,8,4,9},{5,6,4,3,6,0,3,1,5} ,{6,5,5,8,9,0,1,6,2 },{7,4,6,언1,8,5,4,3,7},{8,3, 7,5,2,5,1,0,7},{9,2,8,2,6,8,9,3,4 },{6,1,9,6,7,2,9,8,5},{1,5,1,9,1,0,3,4,6 }}; //5스테이지에 나오는 문제를 배열로 선언
 	
 	
-	int success5[10][5] = {0,};
-	int success6[10][6] = {0,};
-	int success7[10][7] = {0,};
-	int success8[10][8] = {0,};
-	int success9[10][9] = {0,};
+	int success5[10][5] = {0,}; //success5배열을 선언
+	int success6[10][6] = {0,};//success6배열을 선언
+	int success7[10][7] = {0,};//success7배열을 선언
+	int success8[10][8] = {0,};//success8배열을 선언
+	int success9[10][9] = {0,};//success9배열을 선언
 	
 	
-	int hexa=0x0f;
-	int state=0;
-	int level=1;
-	int start=0;
-	int s=0;
-	ledOnOff (hexa);
+	int hexa=0x0f; //hexa정수형 선언
+	int state=0; //state 정수형 선언 
+	int level=1; //level 정수형선언
+	int start=0; //start 정수형 선언
+	int s=0; //s를 0으로 선언
+	ledOnOff (hexa); //ledonoff 변수
 
-char filename7[200]={0,};
-		snprintf(filename7,200,"start.bmp"); 
+char filename7[200]={0,}; //char타입의 배열 선언
+		snprintf(filename7,200,"start.bmp");  //""의 내용을 filename에 넣는다.
 
-       usleep(1000);
+       usleep(1000); //1ms딜레이
 
      if (read_bmp(filename7, &data, &cols, &rows) < 0)
 		{
@@ -1139,7 +1139,7 @@ msgrcv(messageID, &rxMsg, sizeof(rxMsg) - sizeof(long int),0 ,0);
 	{
 		s=0;
 			for (int j=0; j<=8;j++){
-									char filename14[200]={0,};
+									char filename14[200]={0,};언
 		snprintf(filename14,200,"key.bmp"); 
 
        usleep(1000);
