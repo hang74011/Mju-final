@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include <unistd.h>// for open/close
 #include "fnd.h"
 #include "textlcd.h"
 #include "buzzer.h"

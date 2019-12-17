@@ -15,12 +15,12 @@ void usage(void)
 
 int main (int argc, char **argv)
 {
-    int screen_width;
-    int screen_height;
-    int bits_per_pixel;
-    int line_length;
-    int cols = 0, rows = 0;
-	char *data;
+    int screen_width; //스크린의 넓이
+    int screen_height; //스크린의 높이
+    int bits_per_pixel; //비트당 픽셀
+    int line_length; //줄의 길이
+    int cols = 0, rows = 0; //cols와 rows를 0으로 시작
+	char *data;//char타입 포인터 사용
 
 
     printf("=================================\n");

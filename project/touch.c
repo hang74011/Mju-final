@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include <stdio.h>//Standard Input/Output library (표준입출력 라이브러리)의 약어로써, C 언어의 표준 라이브러리 함수의 매크로 정의, 상수, 여러 형의 입출력 함수가 포함된 헤더 파일이다
+#include <stdlib.h>//exit() atoi() rand() srand() system() 함수를 사용하기 위한 헤더파일.
+#include <unistd.h>//유닉스와 같은 시스템에 의해 정의 된 인터페이스에서 unistd.h전형적으로 주로 구성되어 기능 랩퍼 시스템 콜 등 fork, pipe및 I / O 프리미티브 ( read, write, close등).을 사용하기 위한 헤더파일
+#include <fcntl.h>//파일을 제어하는 헤더파일
 #include <sys/ioctl.h>
 #include <linux/input.h>
 #include <pthread.h>
@@ -66,7 +66,7 @@ void* touchThFunc(void *args)			//touch 함수 쓰레드 발생.
 
 int touchFunc(void)
 {
-    char name[256] = "Unknown";
+    char name[256] = "Unknown"; 
 
     /* Print Device Name */
     ioctl(fd, EVIOCGNAME(sizeof(name)), name);
